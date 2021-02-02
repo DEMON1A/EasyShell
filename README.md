@@ -124,5 +124,7 @@ Main()
 
 - I Didn't Implement The Error Handler Yet *( it's on the to-do list )* So Invalid Code Won't Be Applied On The Translated Code. You Won't Get an Error. If You Can't See Your Code On The Translation Then Check Your Code Again Specially For Spaces.
 
+- As I Said Before. Easy Is Sensitive To Spaces. So You Can't Really Use Spaces On The Code. But You Can Use `^` On Variables On These Stuff And The Parser Will Make Them Spaces. For Example: `CALL print,"Hello^World!"` After Translating It Will Be: `print("Hello World!")`
+
 ## Somethng Isn't Working Or You Have Suggestions?
 - Oh, I Would Love To Hear People Suggestions Specially For This Case. If You See That Something Isn't Working Or You Want To Improve Something. Then Please Open a Github Issue Or Fork The Repo Then Create a Pull Request. Also, You Can DM Me On Twitter: [DemoniaSlash](https://twitter.com/DemoniaSlash).
