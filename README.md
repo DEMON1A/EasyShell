@@ -109,6 +109,7 @@ Main()
 - [X] Allowing Using `;` For Multi Code In One Line
 - [X] Using Pure Strings On The Code With `ADD` Option
 - [X] Adding If Conditions Support
+- [ ] Adding Else Support
 - [ ] Adding While Loops Support
 - [ ] Adding For Loops Support
 - [ ] Creating Some Useful Scripts For The Shell.
