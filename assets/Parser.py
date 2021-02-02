@@ -230,7 +230,7 @@ def Main(File, Mode , Output):
         endTime = time.process_time()
         print(f"Code Execution Done in {endTime - startTime} Seconds.")
     elif Mode.lower().replace(' ' , '') == "compile":
-        CurrentPath = os.getcwd();print(CurrentPath); CurrentPath = CurrentPath.split('\\')
+        CurrentPath = os.getcwd(); CurrentPath = CurrentPath.split('\\')
         FullPath = '/'.join(CurrentPath)
         FullPath += f"/compiled/{Output}"
         
