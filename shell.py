@@ -24,7 +24,6 @@ def Shell(Options):
                 print("Command Has Found But The Script Doesn't Exists.")
             else:
                 print("Can't Reconize This Command: '{0}'".format(Input))
-                print(str(e))
 
 def OptionsCollector():
     Parser = optparse.OptionParser()
