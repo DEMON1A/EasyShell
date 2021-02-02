@@ -1,0 +1,21 @@
+# Define The Main Function Then Import Requests
+FUNCTION Main.
+IMPORT requests.
+
+# Store The User Input Into `URI` Var.
+STORE URI
+CALL input,"Enter^URL:^".
+
+# Store Requests Output Into `Response` Var.
+STORE Response
+CALL requests-get,URI,allow_redirects=False.
+
+# Print The Response Information.
+CALL print,"\nURL:",Response.url.
+CALL print,"Status^Code:",Response.status_code.
+CALL print,"Content:^",Response.text
+
+# Call The Main Function Outside It. With NewLine Before It
+NEWLINE
+NEWLINE
+CALL Main

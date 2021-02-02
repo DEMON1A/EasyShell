@@ -1,0 +1,8 @@
+# Define Main Function And The `Message` Var
+FUNCTION Main.
+VAR Message,"Hello^World.".
+CALL print,Message
+
+# Call The Main Function Outside It With NewLine.
+NEWLINE
+CALL Main

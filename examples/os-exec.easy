@@ -1,0 +1,14 @@
+# Define The Main Function Then Import `os`
+FUNCTION Main.
+IMPORT os.
+
+# Calling `input` To Get The User Command
+STORE Command
+CALL input,"Command:^".
+
+# Calling `os.system` Then Pass The User Input as a Command
+CALL os-system,Command.
+
+# Calling The Main Function Outside It. With NewLine
+NEWLINE
+CALL Main
