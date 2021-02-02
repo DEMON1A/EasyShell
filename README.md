@@ -114,6 +114,7 @@ Main()
 - [ ] Creating Some Useful Scripts For The Shell.
 - [ ] Adding Folder Option Compile
 - [ ] Creating an Errors Handler For The Parser.
+- [ ] Creating Some Cool And Easy ShortCuts. To Make Easy Really Easy.
 - [ ] Perform Some Tests On a Linux Machine. Or Ask Someone To-Do So.
 
 ### Changelog:
