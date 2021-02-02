@@ -162,9 +162,34 @@ class Parser:
         except Exception:
             return "" # Creating error module for this. Errors.py. return is constant
 
+    def IF(self , LineOfCode):
+        Condition = LineOfCode.split(' ')[1].replace(' ' , '')
+        End = Condition[-1:]
+
+        if End == ".": Space = "    "; Condition = Condition[:-1]
+        else: Space = ""
+
+        if "," in Condition:
+            Values = Condition.split(",")
+            Values = self.SpaceSet(Values)
+            
+            if len(Values) < 3 or len(Values) > 3:
+                return "" # Some Error Here. Wait For The Hanler Before Release
+            else:
+                firstValue = Values[0]
+                secondValue = Values[1]
+                thirdValue = Values[2]
+
+            ConditionCode = f"if {firstValue} {secondValue} {thirdValue}:\n{Space}"
+            AddedCode = ConditionCode
+        else:
+            AddedCode = f'if {Condition}:\n{Space}'
+
+        return AddedCode
+
 def Main(File, Mode , Output):
     Content = open(File , 'r')
-    Syntax = ['IMPORT' , 'FUNCTION' , 'CALL' , 'STORE' , 'VAR' , 'DEFINE' , 'ADD' , 'NEWLINE' , 'TAB']
+    Syntax = ['IMPORT' , 'FUNCTION' , 'CALL' , 'STORE' , 'VAR' , 'DEFINE' , 'IF' , 'ADD' , 'NEWLINE' , 'TAB']
     Comment = "#"
     Code = ""
 
@@ -205,7 +230,7 @@ def Main(File, Mode , Output):
         endTime = time.process_time()
         print(f"Code Execution Done in {endTime - startTime} Seconds.")
     elif Mode.lower().replace(' ' , '') == "compile":
-        CurrentPath = os.getcwd(); CurrentPath = CurrentPath.split('\\')
+        CurrentPath = os.getcwd();print(CurrentPath); CurrentPath = CurrentPath.split('\\')
         FullPath = '/'.join(CurrentPath)
         FullPath += f"/compiled/{Output}"
         
