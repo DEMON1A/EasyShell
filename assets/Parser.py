@@ -1,11 +1,65 @@
 import os, time
+from assets import SyntaxGrabber
+from assets.ErrorHandler import classErrorHandler
 
 PureCode = {}
 Count = 0
+CurrentSyntax = ""
+lineCount = 0
+currentLineNumber = 0
+filePath = ""
 
 class Parser:
     def __init__(self):
         pass
+
+    def errorCaller(self , LineOfCode , charLength , Name , textMessage):
+        global classErrorHandler , currentLineNumber, filePath
+
+        functions = globals()['classErrorHandler']()
+        errorMessage = getattr(functions , 'callErrorMessage')
+
+        errorMessage(
+            Code=LineOfCode,
+            charLength=charLength,
+            lineNumber=currentLineNumber,
+            Path=filePath,
+            Name=Name,
+            textMessage=textMessage
+        )
+
+    def DotNewLine(self , Value):
+        End = Value[-1:]
+        if End == ".": Space = "    "; Value = Value[:-1]
+        else: Space = ""
+
+        return Space , Value
+
+    def KeySpaceFilter(self , LineOfCode):
+        LineOfCode = self.StartsSpaceDel(LineOfCode=LineOfCode)
+        LineOfCode = self.EndsSpaceDel(LineOfCode=LineOfCode)
+
+        return LineOfCode
+
+    def StartsSpaceDel(self , LineOfCode):
+        global CurrentSyntax
+
+        CodeWithoutKey = LineOfCode.replace(CurrentSyntax , '' , 1)
+        for Character in CodeWithoutKey:
+            if Character == " ": CodeWithoutKey = CodeWithoutKey[1:]
+            else: break
+
+        return CodeWithoutKey
+
+    def EndsSpaceDel(self , LineOfCode):
+        global CurrentSyntax
+        ReversedString = LineOfCode[::-1]
+
+        for Character in ReversedString:
+            if Character == " ": LineOfCode = LineOfCode[:-1]
+            else: break
+
+        return LineOfCode
 
     def NewLinesReplacer(self , PythonCode):
         return PythonCode.replace('\\n' , '\n')
@@ -32,11 +86,8 @@ class Parser:
             return Values.replace('^' , ' ')
 
     def FUNCTION(self , LineOfCode):
-        Function = LineOfCode.split(' ')[1].replace(' ' , '')
-        End = Function[-1:]
-
-        if End == ".": Space = "    "; Function = Function[:-1]
-        else: Space = ""
+        Function = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        Space , Function = self.DotNewLine(Value=Function)
 
         if "," in Function:
             Values = Function.split(',')
@@ -55,11 +106,8 @@ class Parser:
         return AddedCode
 
     def CALL(self , LineOfCode):
-        Function = LineOfCode.split(' ')[1].replace(' ' , '')
-        End = Function[-1:]
-
-        if End == ".": Space = "    "; Function = Function[:-1]
-        else: Space = ""
+        Function = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        Space , Function = self.DotNewLine(Value=Function)
 
         if "," in Function:
             Values = Function.split(",")
@@ -82,7 +130,7 @@ class Parser:
 
 
     def STORE(self , LineOfCode):
-        Var = LineOfCode.split(' ')[1].replace(' ' , '')
+        Var = self.KeySpaceFilter(LineOfCode=LineOfCode)
 
         if "," in Var:
             Values = Var.split(",")
@@ -101,23 +149,15 @@ class Parser:
         return '\n'
 
     def IMPORT(self , LineOfCode):
-        Value = LineOfCode.split(' ')[1].replace(' ' , '')
-        End = Value[-1:]
-
-        if End == ".": Space = "    "; Value = Value[:-1]
-        else: Space = ""
-
-        Value = Value.replace('^' , ' ')
+        Value = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        Space , Value = self.DotNewLine(Value=Value)
 
         AddedCode = f"import {Value}\n{Space}"
         return AddedCode
 
     def VAR(self , LineOfCode):
-        Function = LineOfCode.split(' ')[1].replace(' ' , '')
-        End = Function[-1:]
-
-        if End == ".": Space = "    "; Function = Function[:-1]
-        else: Space = ""
+        Function = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        Space , Function = self.DotNewLine(Value=Function)
 
         if "," in Function:
             Values = Function.split(",")
@@ -141,7 +181,7 @@ class Parser:
     def DEFINE(self , LineOfCode):
         global PureCode
 
-        mainData = LineOfCode.split(' ')[1].replace(' ' , '')
+        mainData = self.KeySpaceFilter(LineOfCode=LineOfCode)
         valueName = mainData.split('=')[0]; valueValue = mainData.split('=')[1]
         valueValue = self.BracketsRemove(vName=valueValue)
 
@@ -153,28 +193,35 @@ class Parser:
     def ADD(self , LineOfCode):
         global PureCode
 
-        mainName = LineOfCode.split(' ')[1].replace(' ' , '')
+        mainName = self.KeySpaceFilter(LineOfCode=LineOfCode)
         try:
             PythonCode = PureCode[mainName]
             PythonCode = self.NewLinesReplacer(PythonCode=PythonCode)
 
             return PythonCode
         except Exception:
-            return "" # Creating error module for this. Errors.py. return is constant
+            self.errorCaller(
+                LineOfCode=LineOfCode,
+                charLength=4,
+                Name="Undefined Variable",
+                textMessage="The Variable You're Trying To Add Isn't Defined."
+            )
 
     def IF(self , LineOfCode):
-        Condition = LineOfCode.split(' ')[1].replace(' ' , '')
-        End = Condition[-1:]
-
-        if End == ".": Space = "    "; Condition = Condition[:-1]
-        else: Space = ""
+        Condition = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        Space , Condition = self.DotNewLine(Value=Condition)
 
         if "," in Condition:
             Values = Condition.split(",")
             Values = self.SpaceSet(Values)
             
             if len(Values) < 3 or len(Values) > 3:
-                return "" # Some Error Here. Wait For The Hanler Before Release
+                self.errorCaller(
+                    LineOfCode=LineOfCode,
+                    charLength=len(Values) + 2,
+                    Name="Max Arguments",
+                    textMessage="You're Passing More Than Three Arguments Into The Condition."
+                )
             else:
                 firstValue = Values[0]
                 secondValue = Values[1]
@@ -187,22 +234,50 @@ class Parser:
 
         return AddedCode
 
+    def ELSE(self , LineOfCode):
+        doAfter = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        Space , doAfter = self.DotNewLine(Value=doAfter)
+        addedCode = "else:\n"
+
+        if "," in doAfter:
+            Values = doAfter.split(",")
+            for doThing in Values:
+                if doThing != '':
+                    addedCode += f"    {doThing}\n{Space}"
+        else:
+            if doAfter != '':
+                addedCode += f"    {doAfter}\n{Space}"
+
+        return addedCode
+
+    def TEST(self , LineOfCode):
+        Code = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        print(f"Code: {Code}")
+
+        return ""
+
 def Main(File, Mode , Output):
+    global CurrentSyntax , currentLineNumber, filePath
+
     Content = open(File , 'r')
-    Syntax = ['IMPORT' , 'FUNCTION' , 'CALL' , 'STORE' , 'VAR' , 'DEFINE' , 'IF' , 'ADD' , 'NEWLINE' , 'TAB']
+    Syntax = SyntaxGrabber.GrapSyntaxKeys()
+    filePath = os.path.abspath(File)
     Comment = "#"
     Code = ""
 
     for CodeLine in Content:
         CodeLine = CodeLine.rstrip("\n")
+        currentLineNumber += 1
         if ";" in CodeLine:
             if "<'" and "'>" in CodeLine: pass
             else: CodeLine = CodeLine.replace(';' , '\n')
+        
         for SingleSyntax in Syntax:
             Limit = len(SingleSyntax)
 
             if '\n' not in CodeLine:
-                if CodeLine[:Limit].upper() == SingleSyntax:
+                if CodeLine.replace(' ' , '')[:Limit].upper() == SingleSyntax:
+                    CurrentSyntax = SingleSyntax
                     Call = globals()['Parser']()
                     Function = getattr(Call, SingleSyntax)
                     Code += Function(CodeLine)
@@ -213,7 +288,8 @@ def Main(File, Mode , Output):
             else:
                 Codes = CodeLine.split('\n')
                 for SomeCode in Codes:
-                    if SomeCode[:Limit].upper() == SingleSyntax:
+                    if SomeCode.replace(' ' , '')[:Limit].upper() == SingleSyntax:
+                        CurrentSyntax = SingleSyntax
                         Call = globals()['Parser']()
                         Function = getattr(Call, SingleSyntax)
                         Code += Function(SomeCode)
@@ -228,15 +304,13 @@ def Main(File, Mode , Output):
         startTime = time.process_time()
         exec(Code)
         endTime = time.process_time()
-        print(f"Code Execution Done in {endTime - startTime} Seconds.")
+        print(f"Code Execution Done in {endTime - startTime} Second/s.")
     elif Mode.lower().replace(' ' , '') == "compile":
         CurrentPath = os.getcwd(); CurrentPath = CurrentPath.split('\\')
-        FullPath = '/'.join(CurrentPath)
-        FullPath += f"/compiled/{Output}"
+        FullPath = '/'.join(CurrentPath); FullPath += f"/compiled/{Output}"
         
         with open(FullPath , 'w') as OutputFile:
-            OutputFile.write(Code)
-            OutputFile.close()
+            OutputFile.write(Code); OutputFile.close()
 
         print(f"The Compiled Code Has Been Saved On: {FullPath}")
     else:
