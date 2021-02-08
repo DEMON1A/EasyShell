@@ -109,13 +109,13 @@ Main()
 - [X] Allowing Using `;` For Multi Code In One Line
 - [X] Using Pure Strings On The Code With `ADD` Option
 - [X] Adding If Conditions Support
-- [ ] Adding Else Support
+- [X] Adding Else Support
 - [ ] Adding While Loops Support
 - [ ] Adding For Loops Support
-- [ ] Making Easy Less Sensitive To Spaces
+- [X] Making Easy Less Sensitive To Spaces
 - [ ] Creating Some Useful Scripts For The Shell.
 - [ ] Adding Folder Option Compile
-- [ ] Creating an Errors Handler For The Parser.
+- [X] Creating an Errors Handler For The Parser.
 - [ ] Creating Some Cool And Easy ShortCuts. To Make Easy Really Easy.
 - [ ] Create a PIP Package For It.
 - [X] Perform Some Tests On a Linux Machine. Or Ask Someone To-Do So.
