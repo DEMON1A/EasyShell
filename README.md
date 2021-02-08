@@ -112,6 +112,7 @@ Main()
 - [ ] Adding Else Support
 - [ ] Adding While Loops Support
 - [ ] Adding For Loops Support
+- [ ] Making Easy Less Sensitive To Spaces
 - [ ] Creating Some Useful Scripts For The Shell.
 - [ ] Adding Folder Option Compile
 - [ ] Creating an Errors Handler For The Parser.
@@ -123,7 +124,7 @@ Main()
 - EasyShell Beta Version Released
 
 ## Notes:
-- Easy Is Sensitive To Spaces More Than Python. I Did Build The Parser From Zero Using Split Methods And Other Things On The Code. One Wrong Space Can Make an Error On The Code And Your LineOfCode Won't Be Applied. It's Only One Space Between The Key And It's Value. So `CALL something` Is Right. But `CALL  something` Will Kill The Code. And That's The Same For `;` You Can't Include Spaces On It. `NEWLINE;CALL something` Is Right, But `NEWLINE; CALL something` Is Really Wrong.
+- Easy Is Sensitive To Spaces More Than Python. I Did Build The Parser From Zero Using Split Methods And Other Things On The Code. One Wrong Space Can Make an Error On The Code And Your LineOfCode Won't Be Applied. It's Only One Space Between The Key And It's Value. So `CALL something` Is Right. But `CALL [SPACE]something` Will Kill The Code. And That's The Same For `;` You Can't Include Spaces On It. `NEWLINE;CALL something` Is Right, But `NEWLINE; CALL something` Is Really Wrong.
 
 - I Didn't Implement The Error Handler Yet *( it's on the to-do list )* So Invalid Code Won't Be Applied On The Translated Code. You Won't Get an Error. If You Can't See Your Code On The Translation Then Check Your Code Again Specially For Spaces.
 
