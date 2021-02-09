@@ -69,12 +69,6 @@ Cool, Your Input is: someinputhere
 - [2021/2/8] EasyShell Beta Version Updated With More Features 0.0.2
 
 ## Notes:
-- ~~Easy Is Sensitive To Spaces More Than Python. I Did Build The Parser From Zero Using Split Methods And Other Things On The Code. One Wrong Space Can Make an Error On The Code And Your LineOfCode Won't Be Applied. It's Only One Space Between The Key And It's Value. So `CALL something` Is Right. But `CALL [SPACE]something` Will Kill The Code. And That's The Same For `;` You Can't Include Spaces On It. `NEWLINE;CALL something` Is Right, But `NEWLINE; CALL something` Is Really Wrong.~~
-
-- ~~I Didn't Implement The Error Handler Yet *( it's on the to-do list )* So Invalid Code Won't Be Applied On The Translated Code. You Won't Get an Error. If You Can't See Your Code On The Translation Then Check Your Code Again Specially For Spaces.~~
-
-- ~~As I Said Before. Easy Is Sensitive To Spaces. So You Can't Really Use Spaces On The Code. But You Can Use `^` On Variables On These Stuff And The Parser Will Make Them Spaces. For Example: `CALL print,"Hello^World!"` After Translating It Will Be: `print("Hello World!")`~~.
-
 - Easy is Ready For Real Usage Now, You Can Use Multi Spaces And Even Use Spaces Before The Syntax. And You Don't Need To Use `^` Instead Of Space. The Space Split Funcions Has Been Replacted With Characters Loop That Removes Spaces at The First And The End Of The File.
 
 ## Somethng Isn't Working Or You Have Suggestions?
