@@ -62,7 +62,8 @@ Cool, Your Input is: someinputhere
 - [ ] Adding Folder Option Compile
 - [X] Creating an Errors Handler For The Parser.
 - [ ] Creating Some Cool And Easy ShortCuts. To Make Easy Really Easy.
-- [ ] Create a PIP Package For It.
+- [ ] Creating a PIP Package For It.
+- [ ] Creating a VSCode Language Support For It.
 - [X] Perform Some Tests On a Linux Machine. Or Ask Someone To-Do So.
 
 ### Changelog:
