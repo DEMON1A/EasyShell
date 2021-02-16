@@ -57,6 +57,7 @@ Cool, Your Input is: someinputhere
 - [ ] Adding While Loops Support
 - [ ] Adding For Loops Support
 - [X] Making Easy Less Sensitive To Spaces
+- [X] Appending __INIT__ Support
 - [ ] Creating Some Useful Scripts For The Shell.
 - [ ] Adding Folder Option Compile
 - [X] Creating an Errors Handler For The Parser.
