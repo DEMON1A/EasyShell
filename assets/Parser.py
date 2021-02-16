@@ -131,6 +131,7 @@ class Parser:
 
     def STORE(self , LineOfCode):
         Var = self.KeySpaceFilter(LineOfCode=LineOfCode)
+        _ , Var = self.DotNewLine(Value=Var)
 
         if "," in Var:
             Values = Var.split(",")
