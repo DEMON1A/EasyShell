@@ -66,9 +66,10 @@ Cool, Your Input is: someinputhere
 - [ ] Creating a VSCode Language Support For It.
 - [X] Perform Some Tests On a Linux Machine. Or Ask Someone To-Do So.
 
-### Changelog:
-- [2021/2/2] EasyShell Beta Version Released 0.0.1
-- [2021/2/8] EasyShell Beta Version Updated With More Features 0.0.2
+### Changelog [Year/Month/Day] :
+- [2021/2/2] EasyShell beta version released 0.0.1
+- [2021/2/8] EasyShell beta version updated with more features 0.0.2
+- [2021/2/16] EasyShell is still on beta but updated. but for now it's ready for production 0.0.3
 
 ## Notes:
 - Easy is Ready For Real Usage Now, You Can Use Multi Spaces And Even Use Spaces Before The Syntax. And You Don't Need To Use `^` Instead Of Space. The Space Split Funcions Has Been Replacted With Characters Loop That Removes Spaces at The First And The End Of The File.
