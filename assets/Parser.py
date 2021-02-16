@@ -1,6 +1,14 @@
 import os, time
+
+'''
+import SyntaxGrabber
+from ErrorHandler import classErrorHandler
+'''
+
 from assets import SyntaxGrabber
 from assets.ErrorHandler import classErrorHandler
+from assets.successHandler import classSuccessHandler
+from assets.initParser import initParserClass
 
 PureCode = {}
 Count = 0
@@ -8,6 +16,7 @@ CurrentSyntax = ""
 lineCount = 0
 currentLineNumber = 0
 filePath = ""
+syntaxFound = False
 
 class Parser:
     def __init__(self):
@@ -72,7 +81,7 @@ class Parser:
 
     def SpaceSet(self , Values):
         global Count
-        
+
         if type(Values) == list:
             for Argument in Values:
                 if "^" in Argument:
@@ -163,7 +172,7 @@ class Parser:
         if "," in Function:
             Values = Function.split(",")
             Values = self.SpaceSet(Values)
-            
+
             for VarsStuff in Values:
                 lastValue = VarsStuff
 
@@ -215,7 +224,7 @@ class Parser:
         if "," in Condition:
             Values = Condition.split(",")
             Values = self.SpaceSet(Values)
-            
+
             if len(Values) < 3 or len(Values) > 3:
                 self.errorCaller(
                     LineOfCode=LineOfCode,
@@ -257,8 +266,26 @@ class Parser:
 
         return ""
 
+    def INIT(self , LineOfCode):
+        global CurrentSyntax
+
+        initParserFunctions = globals()['initParserClass']()
+        initParser = getattr(initParserFunctions , 'initParser')
+
+        initVariables = initParser(CurrentSyntax=CurrentSyntax)
+        for Key,Value in initVariables.items():
+            PureCode[Key] = Value
+
+        return ''
+
 def Main(File, Mode , Output):
-    global CurrentSyntax , currentLineNumber, filePath
+    global CurrentSyntax , currentLineNumber, filePath, syntaxFound
+
+    errorHandler = globals()['classErrorHandler']()
+    showErrorMessage = getattr(errorHandler , 'showErrorMessage')
+
+    successHandler = globals()['classSuccessHandler']()
+    showSuccessMessage = getattr(successHandler , 'showSuccessMessage')
 
     Content = open(File , 'r')
     Syntax = SyntaxGrabber.GrapSyntaxKeys()
@@ -272,18 +299,19 @@ def Main(File, Mode , Output):
         if ";" in CodeLine:
             if "<'" and "'>" in CodeLine: pass
             else: CodeLine = CodeLine.replace(';' , '\n')
-        
+
         for SingleSyntax in Syntax:
             Limit = len(SingleSyntax)
 
             if '\n' not in CodeLine:
                 if CodeLine.replace(' ' , '')[:Limit].upper() == SingleSyntax:
+                    syntaxFound = True
                     CurrentSyntax = SingleSyntax
                     Call = globals()['Parser']()
                     Function = getattr(Call, SingleSyntax)
                     Code += Function(CodeLine)
                 elif CodeLine.replace(' ' , '')[:1] == Comment:
-                    pass
+                    syntaxFound = True
                 else:
                     pass
             else:
@@ -291,6 +319,7 @@ def Main(File, Mode , Output):
                 for SomeCode in Codes:
                     if SomeCode.replace(' ' , '')[:Limit].upper() == SingleSyntax:
                         CurrentSyntax = SingleSyntax
+                        syntaxFound = True
                         Call = globals()['Parser']()
                         Function = getattr(Call, SingleSyntax)
                         Code += Function(SomeCode)
@@ -303,16 +332,25 @@ def Main(File, Mode , Output):
         print(Code)
     elif Mode.lower().replace(' ' , '') == "exec" or Mode.lower().replace(' ' , '') == "execute":
         startTime = time.process_time()
-        exec(Code)
+
+        try:
+            exec(Code)
+        except Exception as e:
+            showErrorMessage(Message=f"[<[Python Error]>]: {str(e)}")
+            return None
+
         endTime = time.process_time()
-        print(f"Code Execution Done in {endTime - startTime} Second/s.")
+        realTime = endTime - startTime
+
+        if int(realTime) < 1: print("Code Execution Done in Less Than 1 Second.")
+        else: print(f"Code Execution Done in {int(realTime)} Second/s.")
     elif Mode.lower().replace(' ' , '') == "compile":
         CurrentPath = os.getcwd(); CurrentPath = CurrentPath.split('\\')
         FullPath = '/'.join(CurrentPath); FullPath += f"/compiled/{Output}"
-        
+
         with open(FullPath , 'w') as OutputFile:
             OutputFile.write(Code); OutputFile.close()
 
-        print(f"The Compiled Code Has Been Saved On: {FullPath}")
+        showSuccessMessage(Message=f"The Compiled Code Has Been Saved On: {FullPath}")
     else:
-        print(f"The Mode You Selected Doesn't Exists: {Mode}\nModes: show, exec, execute, compile")
+        showErrorMessage(Message=f"The Mode You Selected Doesn't Exists: {Mode}")
