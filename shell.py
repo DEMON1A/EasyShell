@@ -5,9 +5,9 @@ from os import path
 def Shell(Options):
     Path = CommandsPaths.Main()
     Commands = CommandsParser.Main(Path)
-    
+
     while (1):
-        Input = input("root@Command: ")
+        Input = input("/> ")
 
         try:
             if "-" in Input:
@@ -21,9 +21,9 @@ def Shell(Options):
                 ScriptsRunner.Main(Script=Script , Input="")
         except Exception as e:
             if "No module named" in str(e):
-                print("Command Has Found But The Script Doesn't Exists.")
+                print("The Command Has Been Found But The Script Doesn't Exists.")
             else:
-                print("Can't Reconize This Command: '{0}'".format(Input))
+                print("Can't Recognize This Command: '{0}'".format(Input))
 
 def OptionsCollector():
     Parser = optparse.OptionParser()
