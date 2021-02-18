@@ -1,0 +1,15 @@
+FUNCTION Main.
+IMPORT tkinter.
+
+VAR Application,tkinter.Tk().
+CALL Application-title,"Hello World".
+
+STORE mainLabel.
+CALL tkinter-Label,Application,padx=10,pady=10,text="Hello World From Easy.".
+
+CALL mainLabel-grid,column=1,row=0.
+
+CALL Application-mainloop,
+
+NEWLINE
+CALL Main
