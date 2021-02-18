@@ -1,5 +1,6 @@
 # EasyShell
 - Cool Shell Written In Python3 Allows You To Write Your Own Commands And Execute It. That Includes It's Own Scripting Language.
+- See The Wiki On The Github Repo For More Information About The Usage.
 
 ## Usage:
 - If You Run EasyShell Without Arguments. It Will Just Open You The Shell That Will Take Your Inputs. Otherwise If You Want To Translate Or Execute Your Easy Code You Will Have To Use One Of These Examples Below
