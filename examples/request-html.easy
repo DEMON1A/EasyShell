@@ -1,0 +1,14 @@
+FUNCTION Main.
+IMPORT requests.
+
+STORE userURL.
+CALL input,"Enter URL: ".
+
+STORE responseContent.
+CALL requests-get,userURL.
+
+CALL print,"\n\nHTML Content:\n".
+CALL print,responseContent.text.
+
+NEWLINE
+CALL Main
