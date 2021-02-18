@@ -1,4 +1,4 @@
-import optparse , concurrent.futures
+import optparse , concurrent.futures , readline
 from assets import CommandsParser , ScriptsRunner , CommandsPaths , Parser
 from os import path
 
