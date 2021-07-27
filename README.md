@@ -76,5 +76,5 @@ Cool, Your Input is: someinputhere
 ## Notes:
 - Easy is Ready For Real Usage Now, You Can Use Multi Spaces And Even Use Spaces Before The Syntax. And You Don't Need To Use `^` Instead Of Space. The Space Split Funcions Has Been Replacted With Characters Loop That Removes Spaces at The First And The End Of The File.
 
-## Somethng Isn't Working Or You Have Suggestions?
+## Something Isn't Working Or You Have Suggestions?
 - Oh, I Would Love To Hear People Suggestions Specially For This Case. If You See That Something Isn't Working Or You Want To Improve Something. Then Please Open a Github Issue Or Fork The Repo Then Create a Pull Request. Also, You Can DM Me On Twitter: [DemoniaSlash](https://twitter.com/DemoniaSlash).
